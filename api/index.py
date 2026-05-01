@@ -1,14 +1,13 @@
 from flask import Flask, request, jsonify
-import time
+from flask_cors import CORS # এটি যোগ করুন
 
 app = Flask(__name__)
+CORS(app) # এটি যোগ করুন
 
 @app.route('/api/scan')
 def scan():
     target = request.args.get('target', '127.0.0.1')
     
-    # Mock Nmap Output to simulate reality on Vercel
-    # In a real VPS, you'd use: subprocess.check_output(['nmap', '-sV', target])
     mock_result = f"""
 Starting Nmap 7.94 ( https://nmap.org ) at 2026-05-01 14:32 BDT
 Nmap scan report for {target}
@@ -26,5 +25,6 @@ Nmap done: 1 IP address (1 host up) scanned in 12.5 seconds
     """
     return jsonify({"result": mock_result})
 
+# Vercel-এর জন্য এটি প্রয়োজন
 if __name__ == '__main__':
     app.run()
